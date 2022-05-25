@@ -8,5 +8,10 @@ class News(models.Model):
     description = RichTextField()
     publish = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f'{self.title}, {self.publish.date() }'
+
+class AboutUs(models.Model):
+    image = models.ImageField(blank=True, upload_to='images/')
+    image2 = models.ImageField(blank=True, upload_to='images/')
+    image3 = models.ImageField(blank=True, upload_to='images/')
+    title = models.CharField(max_length=250)
+    description = RichTextField()
