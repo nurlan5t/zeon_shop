@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'info',
     'ckeditor',
     'ckeditor_uploader',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
