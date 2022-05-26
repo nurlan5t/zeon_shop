@@ -46,3 +46,8 @@ class OurAdvantages(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+
+
+class SliderMainPage(models.Model):
+    image = models.ImageField(blank=True, upload_to='images/')
+    link = models.URLField(blank=True, max_length=200)
