@@ -51,3 +51,8 @@ class OurAdvantages(models.Model):
 class SliderMainPage(models.Model):
     image = models.ImageField(blank=True, upload_to='images/')
     link = models.URLField(blank=True, max_length=200)
+
+
+class PublicOffer(models.Model):
+    title = models.CharField(max_length=250)
+    description = RichTextField()
