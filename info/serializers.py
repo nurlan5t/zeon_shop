@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from info.models import News, AboutUs, HelpQA
+from info.models import News, AboutUs, HelpQA, OurAdvantages, SliderMainPage, \
+    PublicOffer
 
 
 class NewsSerializer(serializers.ModelSerializer):
@@ -17,4 +18,22 @@ class AboutUsSerializer(serializers.ModelSerializer):
 class HelpQASeralizer(serializers.ModelSerializer):
     class Meta:
         model = HelpQA
+        fields = '__all__'
+
+
+class OurAdvantagesSeralizer(serializers.ModelSerializer):
+    class Meta:
+        model = OurAdvantages
+        fields = '__all__'
+
+
+class SliderMainPageSeralizer(serializers.ModelSerializer):
+    class Meta:
+        model = SliderMainPage
+        fields = '__all__'
+
+
+class PublicOfferSeralizer(serializers.ModelSerializer):
+    class Meta:
+        model = PublicOffer
         fields = '__all__'

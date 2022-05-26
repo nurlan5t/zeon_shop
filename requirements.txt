@@ -9,6 +9,7 @@ django-js-asset==2.0.0
 django-rest-swagger==2.2.0
 djangorestframework==3.13.1
 drf-yasg==1.20.0
+drf-yasg2==1.19.4
 idna==3.3
 inflection==0.5.1
 itypes==1.2.0
@@ -23,6 +24,7 @@ requests==2.27.1
 ruamel.yaml==0.17.21
 ruamel.yaml.clib==0.2.6
 simplejson==3.17.6
+six==1.16.0
 sqlparse==0.4.2
 uritemplate==4.1.1
 urllib3==1.26.9
