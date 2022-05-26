@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
-from .models import News, AboutUs, HelpQA
-from info.serializers import NewsSerializer, AboutUsSerializer, HelpQASeralizer
+from .models import News, AboutUs, HelpQA, OurAdvantages
+from info.serializers import NewsSerializer, AboutUsSerializer, HelpQASeralizer, OurAdvantagesSeralizer
 
 
 class ListNewsPagination(PageNumberPagination):
@@ -34,3 +34,11 @@ class HelpQAView(generics.ListAPIView):
     """
     queryset = HelpQA.objects.all()
     serializer_class = HelpQASeralizer
+
+
+class OurAdvantagesView(generics.ListAPIView):
+    """
+    View to get list of Our Advantages
+    """
+    queryset = OurAdvantages.objects.all()
+    serializer_class = OurAdvantagesSeralizer

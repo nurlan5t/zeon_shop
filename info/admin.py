@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import News, AboutUs, HelpQA
+from .models import News, AboutUs, HelpQA, OurAdvantages
 
 
 class NewsAdmin(admin.ModelAdmin):
@@ -17,4 +17,4 @@ class HelpQAAdmin(admin.ModelAdmin):
 admin.site.register(News, NewsAdmin)
 admin.site.register(AboutUs, AboutUsAdmin)
 admin.site.register(HelpQA, HelpQAAdmin)
-
+admin.site.register(OurAdvantages)

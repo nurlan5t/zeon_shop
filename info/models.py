@@ -33,3 +33,16 @@ class HelpQA(models.Model):
     class Meta:
         verbose_name = "Q&A"
         verbose_name_plural = "Help Q&A"
+
+
+class OurAdvantages(models.Model):
+    image = models.ImageField(blank=True, upload_to='images/')
+    title = models.CharField(max_length=250)
+    description = models.TextField()
+
+    class Meta:
+        verbose_name = "Advantage"
+        verbose_name_plural = "Our Advantages"
+
+    def __str__(self):
+        return f'{self.title}'
