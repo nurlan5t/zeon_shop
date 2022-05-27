@@ -1,5 +1,6 @@
 from django.db import models
 from ckeditor.fields import RichTextField
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class News(models.Model):
@@ -56,3 +57,19 @@ class SliderMainPage(models.Model):
 class PublicOffer(models.Model):
     title = models.CharField(max_length=250)
     description = RichTextField()
+
+
+CALLED_CHOICES = [
+    ('y', 'yes'),
+    ('n', 'no'),
+]
+
+
+class CallBack(models.Model):
+    user_name = models.CharField(max_length=250)
+    user_phone = PhoneNumberField(null=False, unique=False)
+    published = models.DateTimeField(auto_now_add=True)
+    type_of_treatment = models.CharField(default='Callback', max_length=10)
+    called_status = models.CharField(max_length=1, choices=CALLED_CHOICES,
+                                     default='n')
+

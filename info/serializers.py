@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from info.models import News, AboutUs, HelpQA, OurAdvantages, SliderMainPage, \
-    PublicOffer
-
+    PublicOffer, CallBack
+from phonenumber_field.serializerfields import PhoneNumberField
 
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,3 +37,9 @@ class PublicOfferSeralizer(serializers.ModelSerializer):
     class Meta:
         model = PublicOffer
         fields = '__all__'
+
+
+class CallBackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CallBack
+        fields = ('user_name', 'user_phone', 'type_of_treatment')
