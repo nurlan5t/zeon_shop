@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from info.models import News, AboutUs, HelpQA, OurAdvantages, SliderMainPage, \
-    PublicOffer, CallBack
-from phonenumber_field.serializerfields import PhoneNumberField
+    PublicOffer, CallBack, FooterHeaderObjects, SocialTypes
+
 
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -43,3 +43,12 @@ class CallBackSerializer(serializers.ModelSerializer):
     class Meta:
         model = CallBack
         fields = ('user_name', 'user_phone', 'type_of_treatment')
+
+
+class FooterHeaderObjectsSerializer(serializers.ModelSerializer):
+    social_type = serializers.StringRelatedField(many=True)
+
+    class Meta:
+        many = True
+        model = FooterHeaderObjects
+        fields = '__all__'

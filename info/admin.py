@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import News, AboutUs, HelpQA, OurAdvantages, SliderMainPage, \
-    PublicOffer, CallBack
+    PublicOffer, CallBack, SocialTypes, FooterHeaderObjects
 
 
 class NewsAdmin(admin.ModelAdmin):
@@ -29,9 +29,15 @@ class CallBackAdmin(admin.ModelAdmin):
     list_filter = ('called_status',)
 
 
+@admin.register(SocialTypes)
+class SocialTypesAdmin(admin.ModelAdmin):
+    list_display = ('contact_type', 'link_to')
+
+
 admin.site.register(News, NewsAdmin)
 admin.site.register(AboutUs, AboutUsAdmin)
 admin.site.register(HelpQA, HelpQAAdmin)
 admin.site.register(OurAdvantages)
 admin.site.register(SliderMainPage)
 admin.site.register(PublicOffer)
+admin.site.register(FooterHeaderObjects)

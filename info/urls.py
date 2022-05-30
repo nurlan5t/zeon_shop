@@ -1,6 +1,7 @@
 from django.urls import path
 from info.views import ListNews, AboutUsView, HelpQAView, OurAdvantagesView, \
-    SliderMainPageView, PublicOfferView, CallBackViewSet
+    SliderMainPageView, PublicOfferView, CallBackViewSet, \
+    FooterHeaderObjectsView
 
 urlpatterns = [
     path('news/', ListNews.as_view()),
@@ -10,4 +11,5 @@ urlpatterns = [
     path('slider/', SliderMainPageView.as_view()),
     path('public_offer/', PublicOfferView.as_view()),
     path('callback/', CallBackViewSet.as_view({'post': 'create'})),
+    path('footer_header_objects/', FooterHeaderObjectsView.as_view()),
 ]

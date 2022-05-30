@@ -73,3 +73,35 @@ class CallBack(models.Model):
     called_status = models.CharField(max_length=1, choices=CALLED_CHOICES,
                                      default='n')
 
+
+CONTACT_TYPES = [
+    ('PHONE', 'PHONE'),
+    ('WHATSAPP', 'WHATSAPP'),
+    ('INSTAGRAM', 'INSTAGRAM'),
+    ('TELEGRAM', 'TELEGRAM'),
+    ('EMAIL', 'EMAIL'),
+]
+
+
+class SocialTypes(models.Model):
+    contact_type = models.CharField(
+        max_length=100, help_text='Choose from list', choices=CONTACT_TYPES)
+    link_to = models.CharField(max_length=255)
+
+    def save(self, *args, **kwargs):
+        """Return link to Whatsapp if type of link chosen as WHATSAPP."""
+        if self.contact_type == 'WHATSAPP':
+            # Exclude first character from number ('+')
+            self.link_to = 'https://wa.me/' + str(self.link_to[1:])
+        super(SocialTypes, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f'{self.contact_type},   {self.link_to}'
+
+
+class FooterHeaderObjects(models.Model):
+    header_logo = models.ImageField(blank=True, upload_to='images/')
+    footer_logo = models.ImageField(blank=True, upload_to='images/')
+    text_info = models.TextField(blank=True)
+    header_phone = PhoneNumberField(null=False, unique=False)
+    social_type = models.ManyToManyField(SocialTypes)

@@ -2,10 +2,10 @@ from rest_framework import generics, viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny
 from .models import News, AboutUs, HelpQA, OurAdvantages, SliderMainPage,\
-    PublicOffer, CallBack
+    PublicOffer, CallBack, FooterHeaderObjects
 from info.serializers import NewsSerializer, AboutUsSerializer, \
     HelpQASeralizer, OurAdvantagesSeralizer, SliderMainPageSeralizer, \
-    PublicOfferSeralizer, CallBackSerializer
+    PublicOfferSeralizer, CallBackSerializer, FooterHeaderObjectsSerializer
 
 
 class ListNewsPagination(PageNumberPagination):
@@ -71,3 +71,11 @@ class CallBackViewSet(viewsets.ModelViewSet):
     queryset = CallBack.objects.all()
     serializer_class = CallBackSerializer
     permission_classes = [AllowAny, ]
+
+
+class FooterHeaderObjectsView(generics.ListAPIView):
+    """
+    View to get Footer and Header objects
+    """
+    queryset = FooterHeaderObjects.objects.all()
+    serializer_class = FooterHeaderObjectsSerializer
