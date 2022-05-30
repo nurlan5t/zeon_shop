@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'drf_yasg',
     'phonenumber_field',
+    'product',
 ]
 
 MIDDLEWARE = [
