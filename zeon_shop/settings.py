@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'phonenumber_field',
     'product',
+    'colorfield',
 ]
 
 MIDDLEWARE = [
