@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'product',
     'colorfield',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -131,10 +132,11 @@ STATICFILES_DIRS = (
 )
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 10,
-
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-    ]
+    ],
+
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
 }

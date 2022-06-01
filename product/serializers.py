@@ -26,4 +26,17 @@ class ProductsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ['bestseller', 'novelty']
+
+
+class ProductsInCollectionSerializer(serializers.ModelSerializer):
+    """Serializing Products in definite Collection"""
+
+    product_objects = ProductObjectsSerializer(many=True)
+    collection = CollectionsSerializer()
+
+    class Meta:
+        model = Product
+        fields = ['collection', 'id', 'product_objects', 'title',
+                  'actual_price', 'old_price', 'discount',
+                  'size_line', 'favorite']
