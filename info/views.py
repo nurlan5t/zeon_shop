@@ -1,11 +1,12 @@
 from rest_framework import generics, viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny
-from .models import News, AboutUs, HelpQA, OurAdvantages, SliderMainPage,\
-    PublicOffer, CallBack, FooterHeaderObjects
+from info.models import News, AboutUs, HelpQA, OurAdvantages, SliderMainPage,\
+    PublicOffer, CallBack, FooterHeaderObjects, ImageHelpQA
 from info.serializers import NewsSerializer, AboutUsSerializer, \
     HelpQASeralizer, OurAdvantagesSeralizer, SliderMainPageSeralizer, \
-    PublicOfferSeralizer, CallBackSerializer, FooterHeaderObjectsSerializer
+    PublicOfferSeralizer, CallBackSerializer, FooterHeaderObjectsSerializer,\
+    ImageHelpQASeralizer
 
 
 class ListNewsPagination(PageNumberPagination):
@@ -38,6 +39,14 @@ class HelpQAView(generics.ListAPIView):
     """
     queryset = HelpQA.objects.all()
     serializer_class = HelpQASeralizer
+
+
+class ImageHelpQAView(generics.ListAPIView):
+    """
+    View to get HelpQA image
+    """
+    queryset = ImageHelpQA.objects.all()
+    serializer_class = ImageHelpQASeralizer
 
 
 class OurAdvantagesView(generics.ListAPIView):
