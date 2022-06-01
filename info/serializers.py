@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from info.models import News, AboutUs, HelpQA, OurAdvantages, SliderMainPage, \
-    PublicOffer, CallBack, FooterHeaderObjects, SocialTypes
+    PublicOffer, CallBack, FooterHeaderObjects, ImageHelpQA
 
 
 class NewsSerializer(serializers.ModelSerializer):
@@ -19,6 +19,12 @@ class HelpQASeralizer(serializers.ModelSerializer):
     class Meta:
         model = HelpQA
         fields = '__all__'
+
+
+class ImageHelpQASeralizer(serializers.ModelSerializer):
+    class Meta:
+        model = ImageHelpQA
+        fields = ['image']
 
 
 class OurAdvantagesSeralizer(serializers.ModelSerializer):
