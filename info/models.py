@@ -26,10 +26,13 @@ class AboutUs(models.Model):
         verbose_name_plural = "About Us"
 
 
+class ImageHelpQA(models.Model):
+    image = models.ImageField(blank=True, upload_to='images/')
+
+
 class HelpQA(models.Model):
     question = models.CharField(max_length=250)
     answer = RichTextField()
-    image = models.ImageField(blank=True, upload_to='images/')
 
     class Meta:
         verbose_name = "Q&A"

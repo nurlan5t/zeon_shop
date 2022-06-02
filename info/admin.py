@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import News, AboutUs, HelpQA, OurAdvantages, SliderMainPage, \
-    PublicOffer, CallBack, SocialTypes, FooterHeaderObjects
+    PublicOffer, CallBack, SocialTypes, FooterHeaderObjects, ImageHelpQA
 
 
 class NewsAdmin(admin.ModelAdmin):
@@ -18,8 +18,17 @@ class AboutUsAdmin(admin.ModelAdmin):
         return super().has_add_permission(request)
 
 
+class ImageHelpQAAdmin(admin.ModelAdmin):
+
+    def has_add_permission(self, request):
+        """ limited add image for helpQA."""
+        if self.model.objects.count() >= 1:
+            return False
+        return super().has_add_permission(request)
+
+
 class HelpQAAdmin(admin.ModelAdmin):
-    list_display = ('question', )
+    list_display = ('question', 'answer')
 
 
 @admin.register(CallBack)
@@ -41,3 +50,4 @@ admin.site.register(OurAdvantages)
 admin.site.register(SliderMainPage)
 admin.site.register(PublicOffer)
 admin.site.register(FooterHeaderObjects)
+admin.site.register(ImageHelpQA, ImageHelpQAAdmin)
