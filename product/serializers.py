@@ -40,3 +40,16 @@ class ProductsInCollectionSerializer(serializers.ModelSerializer):
         fields = ['collection', 'id', 'product_objects', 'title',
                   'actual_price', 'old_price', 'discount',
                   'size_line', 'favorite']
+
+
+class ProductFavoriteSerializer(serializers.ModelSerializer):
+    """Serializer for validation Like/Unlike the Poduct"""
+
+    class Meta:
+        model = Product
+        fields = ['id', 'title', 'favorite']
+        read_only_fields = ('id', 'collection', 'title', 'article',
+                            'actual_price', 'old_price', 'discount',
+                            'description', 'size_line', 'tissue_composition',
+                            'quantity_in_line', 'material', 'bestseller',
+                            'novelty')
