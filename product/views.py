@@ -1,8 +1,9 @@
 from rest_framework import generics
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-from random import sample, choice
+from random import sample, choice, randint
 from product.models import Collection, Product
 from product.serializers import CollectionsSerializer, ProductsSerializer, \
     ProductsInCollectionSerializer, ProductFavoriteSerializer
@@ -70,9 +71,10 @@ class ProductsListView(generics.ListAPIView):
     """Get list of Products by chosen Collection."""
     queryset = Product.objects.all()
     serializer_class = ProductsInCollectionSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['collection']
-    pagination_class = ProductsInCollectionPagination5
+    search_fields = ['title']
+    pagination_class = ListCollectionsPagination8
 
 
 class ProductDetailView(generics.RetrieveAPIView):
@@ -93,19 +95,19 @@ class ProductsFavoritesView(generics.ListAPIView):
     serializer_class = ProductsSerializer
     pagination_class = ProductsInCollectionPagination12
 
-    """Returns random 5 products if Favorites Products doesn't exists."""
-    if queryset.count() == 0:
-        try:
-            data = []
-            collection_id = 1
-            while len(data) != 5:
-                collect = Product.objects.filter(
-                    collection_id=collection_id
-                )
-                data.append(choice(collect))
-                collection_id += 1
-            queryset = data
-            serializer_class = ProductsSerializer
-        except IndexError:
-            queryset = sample(tuple(Product.objects.all()), 5)
-            serializer_class = ProductsSerializer
+
+class FiveRandomProducts(generics.ListAPIView):
+    """Returns five random products from each existing Category.
+
+    Apply if Favorites Products or Search results doesn't exists.
+    """
+    queryset = Product.objects.all()
+    serializer_class = ProductsInCollectionSerializer
+
+    def list(self, request, *args, **kwargs):
+        lst_ids = list(Collection.objects.all().values_list(
+            'id', flat=True))[:5]
+        queryset = list(choice(Product.objects.filter(
+            collection_id=idc)) for idc in lst_ids)
+        serializer_class = ProductsInCollectionSerializer(queryset, many=True)
+        return Response(serializer_class.data)
