@@ -1,7 +1,7 @@
 from django.urls import path
 from product.views import CollectionsListView, ProductDetailView,\
     CollectionDetailView, ProductsNoveltiesView, ProductsListView,\
-    ProductLikeView, ProductsFavoritesView
+    ProductLikeView, ProductsFavoritesView, FiveRandomProducts
 
 urlpatterns = [
     path('collections/', CollectionsListView.as_view(), name='collections'),
@@ -13,4 +13,6 @@ urlpatterns = [
     path('products/<int:pk>/favorite/', ProductLikeView.as_view()),
     path('products/favorites/', ProductsFavoritesView.as_view(),
          name='products_favorites'),
+    path('products/5random/', FiveRandomProducts.as_view(),
+         name='random_products')
 ]
