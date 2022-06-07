@@ -21,8 +21,12 @@ def size_line_validator(size_line: str):
 class Collection(models.Model):
     """Collection model, represents Product's category."""
 
-    image = models.ImageField(blank=True, upload_to='images/')
+    image = models.ImageField(upload_to='images/')
     title = models.CharField(max_length=250)
+
+    class Meta:
+        verbose_name = "Коллекция"
+        verbose_name_plural = "Коллекции"
 
     def __str__(self):
         return self.title
@@ -35,19 +39,35 @@ class Product(models.Model):
                                    related_name='collection')
     title = models.CharField(max_length=255)
     article = models.CharField(max_length=255, unique=True)
-    actual_price = models.PositiveIntegerField()
-    old_price = models.PositiveIntegerField(default=None,
-                                            null=True, blank=True)
-    discount = models.PositiveIntegerField(default=None, null=True, blank=True)
+    actual_price = models.PositiveIntegerField(
+        help_text="Актуальная цена на данный момент.")
+    old_price = models.PositiveIntegerField(
+        help_text="Цена до скидки, создаётся атвтоматически "
+                  "после указания скидки.",
+        default=None, null=True, blank=True
+                                            )
+    discount = models.PositiveIntegerField(
+        help_text="Скидка в процентах.",
+        default=None, null=True, blank=True)
     description = RichTextField()
     size_line = models.CharField(max_length=5,
                                  validators=(size_line_validator,))
     tissue_composition = models.CharField(max_length=250)
-    quantity_in_line = models.PositiveIntegerField(blank=True)
+    quantity_in_line = models.PositiveIntegerField(
+        help_text='Количество в линейке, создаётся атвтоматически '
+                  'после линейки размеров.',
+        blank=True)
     material = models.CharField(max_length=100)
     bestseller = models.BooleanField(default=False)
     novelty = models.BooleanField(default=True)
     favorite = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Товар"
+        verbose_name_plural = "Товары"
 
     def save(self, *args, **kwargs):
 
@@ -70,6 +90,19 @@ class ProductObjects(models.Model):
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE,
                                 related_name='product_objects')
-    image = models.ImageField(blank=True, upload_to='images/')
+    image = models.ImageField(upload_to='images/')
     color = ColorField(default='#FF0000')
 
+    def __str__(self):
+        return f'{self.product.title} | {self.image} | {self.color}'
+
+
+class Cart(models.Model):
+    """Cart contains all user chosen Products."""
+
+    product = models.ForeignKey(ProductObjects, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        verbose_name = "Товар"
+        verbose_name_plural = "Корзина"
