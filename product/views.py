@@ -3,10 +3,14 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-from random import sample, choice, randint
-from product.models import Collection, Product
+from random import choice
+from product.models import Collection, Product, Cart
+from rest_framework import status
+from rest_framework.decorators import api_view
+
 from product.serializers import CollectionsSerializer, ProductsSerializer, \
-    ProductsInCollectionSerializer, ProductFavoriteSerializer
+    ProductsInCollectionSerializer, ProductFavoriteSerializer,\
+    CartSerializer, CartUpdateSerializer
 
 
 """
@@ -83,7 +87,7 @@ class ProductDetailView(generics.RetrieveAPIView):
     serializer_class = ProductsSerializer
 
 
-class ProductLikeView(generics.UpdateAPIView):
+class ProductLikeView(generics.RetrieveUpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductFavoriteSerializer
     lookup_field = 'pk'
@@ -111,3 +115,15 @@ class FiveRandomProducts(generics.ListAPIView):
             collection_id=idc)) for idc in lst_ids)
         serializer_class = ProductsInCollectionSerializer(queryset, many=True)
         return Response(serializer_class.data)
+
+
+class ProductsCartView(generics.ListAPIView):
+    """List all Products in Cart."""
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+
+
+class ProductCartView(generics.RetrieveUpdateDestroyAPIView):
+    """View to Update, Delete Product in Cart."""
+    queryset = Cart.objects.all()
+    serializer_class = CartUpdateSerializer

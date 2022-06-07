@@ -62,6 +62,9 @@ class Product(models.Model):
     novelty = models.BooleanField(default=True)
     favorite = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.title
+
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
@@ -89,3 +92,17 @@ class ProductObjects(models.Model):
                                 related_name='product_objects')
     image = models.ImageField(upload_to='images/')
     color = ColorField(default='#FF0000')
+
+    def __str__(self):
+        return f'{self.product.title} | {self.image} | {self.color}'
+
+
+class Cart(models.Model):
+    """Cart contains all user chosen Products."""
+
+    product = models.ForeignKey(ProductObjects, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        verbose_name = "Товар"
+        verbose_name_plural = "Корзина"

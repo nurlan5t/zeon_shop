@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from product.models import Collection, Product, ProductObjects
+from product.models import Collection, Product, ProductObjects, Cart
 
 
 class CollectionsSerializer(serializers.ModelSerializer):
@@ -53,3 +53,41 @@ class ProductFavoriteSerializer(serializers.ModelSerializer):
                             'description', 'size_line', 'tissue_composition',
                             'quantity_in_line', 'material', 'bestseller',
                             'novelty')
+
+
+class ProductsForCart(serializers.ModelSerializer):
+    """Serializing Products in definite Collection"""
+
+    class Meta:
+        model = Product
+        fields = ['id', 'title', 'size_line',
+                  'actual_price', 'old_price']
+
+
+class ProductsInCartSerializer(serializers.ModelSerializer):
+    """Serializing Products in Cart"""
+    product = ProductsForCart()
+
+    class Meta:
+        model = ProductObjects
+        fields = '__all__'
+
+
+class CartSerializer(serializers.ModelSerializer):
+    """Serializing Products in Cart"""
+    product = ProductsInCartSerializer()
+
+    class Meta:
+        model = Cart
+        fields = ['id', 'product', 'quantity']
+
+
+class CartUpdateSerializer(serializers.ModelSerializer):
+    """Serializing Product in Cart"""
+    product = ProductsInCartSerializer(read_only=True)
+    quantity = serializers.IntegerField(min_value=1)
+
+    class Meta:
+        model = Cart
+        fields = ['product', 'quantity']
+        read_only_fields = ('id', 'product')
