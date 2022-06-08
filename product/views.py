@@ -1,16 +1,16 @@
-from rest_framework import generics
+from rest_framework import generics, permissions, serializers
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from random import choice
-from product.models import Collection, Product, Cart
-from rest_framework import status
 from rest_framework.decorators import api_view
+from django.db.models import Sum
 
+from product.models import Collection, Product, Cart, ProductObjects
 from product.serializers import CollectionsSerializer, ProductsSerializer, \
     ProductsInCollectionSerializer, ProductFavoriteSerializer,\
-    CartSerializer, CartUpdateSerializer
+    CartSerializer, CartUpdateSerializer, CartCreateSerializer
 
 
 """
@@ -117,6 +117,11 @@ class FiveRandomProducts(generics.ListAPIView):
         return Response(serializer_class.data)
 
 
+"""
+CART VIEWS.
+"""
+
+
 class ProductsCartView(generics.ListAPIView):
     """List all Products in Cart."""
     queryset = Cart.objects.all()
@@ -127,3 +132,30 @@ class ProductCartView(generics.RetrieveUpdateDestroyAPIView):
     """View to Update, Delete Product in Cart."""
     queryset = Cart.objects.all()
     serializer_class = CartUpdateSerializer
+
+
+class CartCreateView(generics.CreateAPIView):
+    """View to add a Product to Cart"""
+    serializer_class = CartCreateSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+@api_view()
+def get_order_info(request):
+    """Calculate Cart objects and returns all information about Order."""
+    lines_amount = Cart.objects.all().count()
+    products_amount = sum(
+        i.product.product.quantity_in_line *
+        i.quantity for i in Cart.objects.all())
+    total_price = sum(
+        i.product.product.old_price * i.quantity for i in Cart.objects.all())
+    actual_price = sum(
+        i.product.product.actual_price * i.quantity for i in Cart.objects.all())
+    discount = total_price - actual_price
+    return Response({
+        "Количество линеек": lines_amount,
+        "Количество товаров": products_amount,
+        "Стоимость": total_price,
+        "Скидка": discount,
+        "Итого к оплате": actual_price
+        })

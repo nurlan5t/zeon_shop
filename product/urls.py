@@ -2,7 +2,7 @@ from django.urls import path
 from product.views import CollectionsListView, ProductDetailView,\
     CollectionDetailView, ProductsNoveltiesView, ProductsListView,\
     ProductLikeView, ProductsFavoritesView, FiveRandomProducts,\
-    ProductsCartView, ProductCartView
+    ProductsCartView, ProductCartView, CartCreateView, get_order_info
 
 
 urlpatterns = [
@@ -18,5 +18,7 @@ urlpatterns = [
     path('products/5random/', FiveRandomProducts.as_view(),
          name='random_products'),
     path('cart/', ProductsCartView.as_view(), name='cart_list'),
-    path('cart/<int:pk>/', ProductCartView.as_view(), name='cart_detail')
+    path('cart/<int:pk>/', ProductCartView.as_view(), name='cart_detail'),
+    path('products/add_to_cart/', CartCreateView.as_view()),
+    path('order/info/', get_order_info),
 ]
