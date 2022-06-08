@@ -61,7 +61,7 @@ class ProductsForCart(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ['id', 'title', 'size_line',
-                  'actual_price', 'old_price']
+                  'actual_price', 'old_price', 'quantity_in_line']
 
 
 class ProductsInCartSerializer(serializers.ModelSerializer):
@@ -83,7 +83,7 @@ class CartSerializer(serializers.ModelSerializer):
 
 
 class CartUpdateSerializer(serializers.ModelSerializer):
-    """Serializing Product in Cart"""
+    """Serializing Product in Cart for up/down to a product quantity."""
     product = ProductsInCartSerializer(read_only=True)
     quantity = serializers.IntegerField(min_value=1)
 
@@ -91,3 +91,12 @@ class CartUpdateSerializer(serializers.ModelSerializer):
         model = Cart
         fields = ['product', 'quantity']
         read_only_fields = ('id', 'product')
+
+
+class CartCreateSerializer(serializers.ModelSerializer):
+    """For create a new Cart object."""
+    quantity = serializers.IntegerField(min_value=1)
+
+    class Meta:
+        model = Cart
+        fields = ['product', 'quantity']
