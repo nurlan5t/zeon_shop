@@ -3,7 +3,6 @@ from django.db import models
 from colorfield.fields import ColorField
 from ckeditor.fields import RichTextField
 
-
 def size_line_validator(size_line: str):
     """Validate size_line field in Product's objects."""
     first_two = size_line[:2]
@@ -93,8 +92,12 @@ class ProductObjects(models.Model):
     image = models.ImageField(upload_to='images/')
     color = ColorField(default='#FF0000')
 
+    class Meta:
+        verbose_name = "Отдельный товар"
+        verbose_name_plural = "Товары по отдельности"
+
     def __str__(self):
-        return f'{self.product.title} | {self.image} | {self.color}'
+        return f"{self.product.title}   |   {self.color}    |   {self.image}"
 
 
 class Cart(models.Model):

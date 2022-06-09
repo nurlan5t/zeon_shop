@@ -140,9 +140,8 @@ class CartCreateView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-@api_view()
-def get_order_info(request):
-    """Calculate Cart objects and returns all information about Order."""
+def calculate_order_info():
+    """Calculate Cart objects and returns tuple of Order details."""
     lines_amount = Cart.objects.all().count()
     products_amount = sum(
         i.product.product.quantity_in_line *
@@ -150,12 +149,20 @@ def get_order_info(request):
     total_price = sum(
         i.product.product.old_price * i.quantity for i in Cart.objects.all())
     actual_price = sum(
-        i.product.product.actual_price * i.quantity for i in Cart.objects.all())
+        i.product.product.actual_price * i.quantity for i in Cart.objects.all()
+    )
     discount = total_price - actual_price
+    return lines_amount, products_amount, total_price, actual_price, discount
+
+
+@api_view()
+def order_info_view(request):
+    """Returns all information about Order."""
+
     return Response({
-        "Количество линеек": lines_amount,
-        "Количество товаров": products_amount,
-        "Стоимость": total_price,
-        "Скидка": discount,
-        "Итого к оплате": actual_price
+        "Количество линеек": calculate_order_info()[0],
+        "Количество товаров": calculate_order_info()[1],
+        "Стоимость": calculate_order_info()[2],
+        "Скидка": calculate_order_info()[4],
+        "Итого к оплате": calculate_order_info()[3]
         })

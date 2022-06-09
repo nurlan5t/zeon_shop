@@ -27,4 +27,6 @@ class CartAdmin(admin.ModelAdmin):
     list_display = ('product', 'quantity')
 
 
-admin.site.register(ProductObjects)
+@admin.register(ProductObjects)
+class CartAdmin(admin.ModelAdmin):
+    list_display = ('product', 'color', 'image')
