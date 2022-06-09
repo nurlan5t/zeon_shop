@@ -1,17 +1,16 @@
-from rest_framework import generics, permissions, serializers
+from rest_framework import generics, permissions, filters
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from random import choice
 from rest_framework.decorators import api_view
-from django.db.models import Sum
 
-from product.models import Collection, Product, Cart, ProductObjects
+from product.models import Collection, Product, Cart, calculate_order_info, \
+    Order
 from product.serializers import CollectionsSerializer, ProductsSerializer, \
-    ProductsInCollectionSerializer, ProductFavoriteSerializer,\
-    CartSerializer, CartUpdateSerializer, CartCreateSerializer
-
+    ProductsInCollectionSerializer, ProductFavoriteSerializer, \
+    CartSerializer, CartUpdateSerializer, CartCreateSerializer, \
+    OrderCreateSerializer
 
 """
 COLLECTIONS VIEWS.
@@ -141,21 +140,18 @@ class CartCreateView(generics.CreateAPIView):
 
 
 @api_view()
-def get_order_info(request):
-    """Calculate Cart objects and returns all information about Order."""
-    lines_amount = Cart.objects.all().count()
-    products_amount = sum(
-        i.product.product.quantity_in_line *
-        i.quantity for i in Cart.objects.all())
-    total_price = sum(
-        i.product.product.old_price * i.quantity for i in Cart.objects.all())
-    actual_price = sum(
-        i.product.product.actual_price * i.quantity for i in Cart.objects.all())
-    discount = total_price - actual_price
+def order_info_view(request):
+    """Returns all information about Order."""
+
     return Response({
-        "Количество линеек": lines_amount,
-        "Количество товаров": products_amount,
-        "Стоимость": total_price,
-        "Скидка": discount,
-        "Итого к оплате": actual_price
+        "Количество линеек": calculate_order_info()[0],
+        "Количество товаров": calculate_order_info()[1],
+        "Стоимость": calculate_order_info()[2],
+        "Скидка": calculate_order_info()[4],
+        "Итого к оплате": calculate_order_info()[3]
         })
+
+
+class OrderCreateView(generics.CreateAPIView):
+    serializer_class = OrderCreateSerializer
+    queryset = Order.objects.all()

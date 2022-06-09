@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from product.models import Collection, Product, ProductObjects, Cart
+from rest_framework.exceptions import ValidationError
+
+from product.models import Collection, Product, ProductObjects, Cart, Order
 
 
 class CollectionsSerializer(serializers.ModelSerializer):
@@ -94,9 +96,26 @@ class CartUpdateSerializer(serializers.ModelSerializer):
 
 
 class CartCreateSerializer(serializers.ModelSerializer):
-    """For create a new Cart object."""
+    """For creating a new Cart object."""
     quantity = serializers.IntegerField(min_value=1)
 
     class Meta:
         model = Cart
         fields = ['product', 'quantity']
+
+
+class OrderCreateSerializer(serializers.ModelSerializer):
+    """For creating a new Order object."""
+    public_agreement = serializers.BooleanField(required=True)
+
+    def validate(self, attrs):
+        if not attrs['public_agreement']:
+            raise ValidationError(
+                'Отметьте "Согласен с условиями публичной оферты"!')
+        return attrs
+
+    class Meta:
+        model = Order
+
+        exclude = 'status', 'id', 'lines_amount', 'products_amount',\
+                  'total_price', 'actual_price', 'discount'
