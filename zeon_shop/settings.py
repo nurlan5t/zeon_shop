@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'product',
     'colorfield',
     'django_filters',
+    'django_countries',
 ]
 
 MIDDLEWARE = [

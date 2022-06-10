@@ -9,6 +9,7 @@ diff-match-patch==20200713
 Django==4.0.4
 django-ckeditor==6.4.1
 django-colorfield==0.7.0
+django-countries==7.3.2
 django-filter==21.1
 django-import-export==2.8.0
 django-js-asset==2.0.0
@@ -46,6 +47,7 @@ simplejson==3.17.6
 six==1.16.0
 sqlparse==0.4.2
 tablib==3.2.1
+typing_extensions==4.2.0
 uritemplate==4.1.1
 urllib3==1.26.9
 xlrd==2.0.1
