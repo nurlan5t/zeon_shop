@@ -49,12 +49,19 @@ class ImageHelpQAView(generics.ListAPIView):
     serializer_class = ImageHelpQASeralizer
 
 
+class OurAdvantagesPagination4(PageNumberPagination):
+    """Set specific pagination for Products list in definite Collection."""
+
+    page_size = 4
+
+
 class OurAdvantagesView(generics.ListAPIView):
     """
     View to get list of Our Advantages
     """
     queryset = OurAdvantages.objects.all()
     serializer_class = OurAdvantagesSeralizer
+    pagination_class = OurAdvantagesPagination4
 
 
 class SliderMainPageView(generics.ListAPIView):

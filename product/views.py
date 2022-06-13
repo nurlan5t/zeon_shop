@@ -51,6 +51,19 @@ PRODUCTS VIEWS.
 """
 
 
+class ProductsBestsellersPagination8(PageNumberPagination):
+    """Set specific pagination for Product list in definite Collection."""
+
+    page_size = 8
+
+
+class ProductsBestsellersView(generics.ListAPIView):
+    """List all bestsellers of Products."""
+    queryset = Product.objects.filter(bestseller=True)
+    serializer_class = ProductsSerializer
+    pagination_class = ProductsBestsellersPagination8
+
+
 class ProductsNoveltiesPagination5(PageNumberPagination):
     """Set specific pagination for Product list in definite Collection."""
 
