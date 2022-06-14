@@ -83,9 +83,15 @@ class ImageHelpQAAdmin(RedirectToObject):
     pass
 
 
+class SocialTypesInline(admin.StackedInline):
+    """Allow to admin add contacts for footer (maximum 6)."""
+    model = SocialTypes
+    max_num = 6
+
+
 @admin.register(FooterHeaderObjects)
 class FooterHeaderObjectsAdmin(RedirectToObject):
-    pass
+    inlines = [SocialTypesInline]
 
 
 @admin.register(PublicOffer)
