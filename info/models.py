@@ -85,7 +85,7 @@ class CallBack(models.Model):
     user_phone = PhoneNumberField(unique=False)
     published = models.DateTimeField(auto_now_add=True)
     type_of_treatment = models.CharField(default='Обратный звонок',
-                                         max_length=10)
+                                         max_length=20)
     called_status = models.CharField(max_length=1, choices=CALLED_CHOICES,
                                      default='n')
 
