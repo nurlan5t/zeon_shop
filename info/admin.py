@@ -13,7 +13,8 @@ class NewsAdmin(admin.ModelAdmin):
 
 @admin.register(CallBack)
 class CallBackAdmin(admin.ModelAdmin):
-    list_display = ('type_of_treatment', 'called_status', 'published',)
+    list_display = ('user_phone', 'user_name', 'type_of_treatment',
+                    'called_status', 'published',)
     search_fields = ('user_name', 'user_phone',)
     list_filter = ('called_status',)
 
