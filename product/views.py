@@ -10,7 +10,7 @@ from product.models import Collection, Product, Cart, calculate_order_info, \
 from product.serializers import CollectionsSerializer, ProductsSerializer, \
     ProductsInCollectionSerializer, ProductFavoriteSerializer, \
     CartSerializer, CartUpdateSerializer, CartCreateSerializer, \
-    OrderCreateSerializer
+    OrderCreateSerializer, OrdersHistorySerializer
 
 """
 COLLECTIONS VIEWS.
@@ -168,3 +168,8 @@ def order_info_view(request):
 class OrderCreateView(generics.CreateAPIView):
     serializer_class = OrderCreateSerializer
     queryset = Order.objects.all()
+
+
+class OrdersHistoryView(generics.ListAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrdersHistorySerializer
