@@ -3,7 +3,7 @@ from product.views import CollectionsListView, ProductDetailView, \
     CollectionDetailView, ProductsNoveltiesView, ProductsListView, \
     ProductLikeView, ProductsFavoritesView, FiveRandomProducts, \
     ProductsCartView, ProductCartView, CartCreateView, order_info_view,\
-    OrderCreateView
+    OrderCreateView, ProductsBestsellersView, OrdersHistoryView
 
 
 urlpatterns = [
@@ -13,6 +13,8 @@ urlpatterns = [
     path('products/<int:pk>/', ProductDetailView.as_view(), name='product'),
     path('products/novelties/', ProductsNoveltiesView.as_view(),
          name='products_novelties'),
+    path('products/bestsellers/', ProductsBestsellersView.as_view(),
+         name='products_novelties'),
     path('products/<int:pk>/favorite/', ProductLikeView.as_view()),
     path('products/favorites/', ProductsFavoritesView.as_view(),
          name='products_favorites'),
@@ -21,6 +23,7 @@ urlpatterns = [
     path('cart/', ProductsCartView.as_view(), name='cart_list'),
     path('cart/<int:pk>/', ProductCartView.as_view(), name='cart_detail'),
     path('products/add_to_cart/', CartCreateView.as_view()),
-    path('order/', order_info_view),
+    path('order/total_sum/', order_info_view),
     path('order/create/', OrderCreateView.as_view()),
+    path('order/history/', OrdersHistoryView.as_view()),
 ]

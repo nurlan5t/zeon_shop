@@ -116,6 +116,42 @@ class OrderCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-
         exclude = 'status', 'id', 'lines_amount', 'products_amount',\
                   'total_price', 'actual_price', 'discount'
+        read_only_fields = 'ordered_products',
+
+
+class ProductsForOrder(serializers.ModelSerializer):
+    """Products for Orders history"""
+
+    class Meta:
+        model = Product
+        fields = ['id', 'title', 'article']
+
+
+class ProductObjectsForOrder(serializers.ModelSerializer):
+    """Product objects for Orders history"""
+    product = ProductsForOrder()
+
+    class Meta:
+        model = ProductObjects
+        fields = 'product', 'image', "color"
+
+
+class CartForOrder(serializers.ModelSerializer):
+    """Cart Products for Orders history"""
+    product = ProductObjectsForOrder()
+
+    class Meta:
+        model = Cart
+        fields = ['product', 'quantity']
+
+
+class OrdersHistorySerializer(serializers.ModelSerializer):
+    """For list Orders"""
+    ordered_products = CartForOrder(many=True)
+
+    class Meta:
+        model = Order
+        exclude = ['name', 'surname', 'email', 'phone', 'country',
+                   'city', 'public_agreement', 'total_price', 'discount']

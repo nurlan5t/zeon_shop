@@ -85,7 +85,7 @@ class CallBack(models.Model):
     user_phone = PhoneNumberField(unique=False)
     published = models.DateTimeField(auto_now_add=True)
     type_of_treatment = models.CharField(default='Обратный звонок',
-                                         max_length=10)
+                                         max_length=20)
     called_status = models.CharField(max_length=1, choices=CALLED_CHOICES,
                                      default='n')
 
@@ -107,6 +107,9 @@ class SocialTypes(models.Model):
     contact_type = models.CharField(
         max_length=100, help_text='Choose from list', choices=CONTACT_TYPES)
     link_to = models.CharField(max_length=255)
+    social_type = models.ForeignKey('FooterHeaderObjects',
+                                    on_delete=models.CASCADE,
+                                    related_name='social_type')
 
     class Meta:
         verbose_name = "Тип связи"
@@ -128,7 +131,6 @@ class FooterHeaderObjects(models.Model):
     footer_logo = models.ImageField(upload_to='images/')
     text_info = models.TextField()
     header_phone = PhoneNumberField(unique=False)
-    social_type = models.ManyToManyField(SocialTypes)
 
     class Meta:
         verbose_name = "Объект Хедера и Футера"

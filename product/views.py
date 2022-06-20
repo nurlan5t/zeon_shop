@@ -10,7 +10,7 @@ from product.models import Collection, Product, Cart, calculate_order_info, \
 from product.serializers import CollectionsSerializer, ProductsSerializer, \
     ProductsInCollectionSerializer, ProductFavoriteSerializer, \
     CartSerializer, CartUpdateSerializer, CartCreateSerializer, \
-    OrderCreateSerializer
+    OrderCreateSerializer, OrdersHistorySerializer
 
 """
 COLLECTIONS VIEWS.
@@ -49,6 +49,19 @@ class CollectionDetailView(generics.ListAPIView):
 """
 PRODUCTS VIEWS.
 """
+
+
+class ProductsBestsellersPagination8(PageNumberPagination):
+    """Set specific pagination for Product list in definite Collection."""
+
+    page_size = 8
+
+
+class ProductsBestsellersView(generics.ListAPIView):
+    """List all bestsellers of Products."""
+    queryset = Product.objects.filter(bestseller=True)
+    serializer_class = ProductsSerializer
+    pagination_class = ProductsBestsellersPagination8
 
 
 class ProductsNoveltiesPagination5(PageNumberPagination):
@@ -155,3 +168,8 @@ def order_info_view(request):
 class OrderCreateView(generics.CreateAPIView):
     serializer_class = OrderCreateSerializer
     queryset = Order.objects.all()
+
+
+class OrdersHistoryView(generics.ListAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrdersHistorySerializer
